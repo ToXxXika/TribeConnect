@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+ <group android:checkableBehavior="single">
+     <item android:id="@+id/nav_home"
+           android:icon="@drawable/baseline_home_24"
+           android:title="@string/home" />
+        <item android:id="@+id/nav_profile"
+              android:icon="@drawable/baseline_settings_24"
+              android:title="@string/Contact" />
+        <item android:id="@+id/nav_settings"
+                android:icon="@drawable/baseline_settings_24"
+                android:title="@string/settings" />
+
+ </group>
+    <item android:title="@string/profile">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item android:id="@+id/About"
+                        android:icon="@drawable/baseline_details_24"
+                        android:title="@string/About" />
+                <item android:id="@+id/Logout"
+                         android:icon="@drawable/baseline_logout_24"
+                            android:title="@string/Logout"
+                />
+            </group>
+        </menu>
+    </item>
+    <item android:title="@string/Movies">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item android:id="@+id/lstMovie"
+                      android:icon="@drawable/baseline_favorite_24"
+                      android:title="@string/Favorites" />
+                <item android:id="@+id/xx"
+                      android:icon="@drawable/baseline_logout_24"
+                      android:title="@string/All"
+                />
+            </group>
+        </menu>
+    </item>
+</menu>

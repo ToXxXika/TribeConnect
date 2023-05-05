@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">TribeConnectv2</string>
+    <string name="title_activity_home">HomeActivity</string>
+    <string name="tab_text_1">Tab 1</string>
+    <string name="tab_text_2">Tab 2</string>
+    <string name="home">Home</string>
+    <string name="profile">Profile</string>
+    <string name="settings">Settings</string>
+    <string name="Contact">Contact</string>
+    <string name="About">About</string>
+    <string name="Logout">Logout</string>
+    <string name="Movies">Movies</string>
+    <string name="Favorites">Favorties</string>
+    <string name="All">All</string>
+    <string name="open">Open Navigation Drawer</string>
+    <string name="close">Close Navigation Drawer</string>
+    <string name="fmovies_to">fmovies.to</string>
+    <string name="oussema_mabrouki">Oussema Mabrouki</string>
+</resources>
