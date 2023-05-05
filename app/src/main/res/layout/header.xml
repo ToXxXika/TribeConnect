@@ -7,7 +7,8 @@
 >
 
     <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-              android:text="Oussema"
+              android:text=""
+              android:id="@+id/txtName"
               android:textColor="#fff"
               android:textSize="30sp"
               android:textStyle="bold"

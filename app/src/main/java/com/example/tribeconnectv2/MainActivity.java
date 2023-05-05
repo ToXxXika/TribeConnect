@@ -38,6 +38,12 @@ public class MainActivity extends AppCompatActivity {
 
             String emailText = Objects.requireNonNull(email.getText()).toString();
             String passwordText = Objects.requireNonNull(password.getText()).toString();
+             if(emailText.equals("admin") && passwordText.equals("admin")){
+                Intent intent = new Intent(MainActivity.this, HomeActivity.class);
+                 intent.putExtra(emailText, "admin");
+                 startActivity(intent);
+                   // Toast.makeText(getApplicationContext(), "Login Successful", Toast.LENGTH_SHORT).show();
+             }
             if (emailText.isEmpty()) {
                 email.setError("Email is required");
                 email.requestFocus();

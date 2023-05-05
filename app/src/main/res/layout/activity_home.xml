@@ -7,13 +7,32 @@
         android:layout_height="match_parent"
         android:id="@+id/drawer_layout"
         tools:context=".HomeActivity">
-    <com.google.android.material.navigation.NavigationView android:layout_width="wrap_content"
-                                                           android:layout_height="match_parent"
-                                                           app:headerLayout="@layout/header"
-                                                           app:menu="@menu/main_menu"
-                                                           android:id="@+id/nav_view"
-                                                           android:layout_gravity="start"
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+    android:orientation="vertical">
+        <include
+                layout="@layout/bottommenu"
+        />
+    </LinearLayout>
+    <com.google.android.material.navigation.NavigationView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            app:headerLayout="@layout/header"
+            app:menu="@menu/main_menu"
+            android:id="@+id/nav_view"
+            android:layout_gravity="start"
 
     />
+    <FrameLayout
+            android:id="@+id/fragment_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+
 
 </androidx.drawerlayout.widget.DrawerLayout>
