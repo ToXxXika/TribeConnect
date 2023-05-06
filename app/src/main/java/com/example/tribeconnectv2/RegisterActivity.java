@@ -29,6 +29,10 @@ public class RegisterActivity extends AppCompatActivity {
         confirmpassword = findViewById(R.id.editTextConfirmPassword);
         register = findViewById(R.id.buttonRegister);
         signin = findViewById(R.id.textViewSignIn);
+        signin.setOnClickListener(v -> {
+            Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+            startActivity(intent);
+        });
         register.setOnClickListener(v -> {
             if (fullname.getText().toString().isEmpty()) {
                 fullname.setError("Please enter your full name");

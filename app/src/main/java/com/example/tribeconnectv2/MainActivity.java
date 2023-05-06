@@ -38,12 +38,7 @@ public class MainActivity extends AppCompatActivity {
 
             String emailText = Objects.requireNonNull(email.getText()).toString();
             String passwordText = Objects.requireNonNull(password.getText()).toString();
-             if(emailText.equals("admin") && passwordText.equals("admin")){
-                Intent intent = new Intent(MainActivity.this, HomeActivity.class);
-                 intent.putExtra(emailText, "admin");
-                 startActivity(intent);
-                   // Toast.makeText(getApplicationContext(), "Login Successful", Toast.LENGTH_SHORT).show();
-             }
+
             if (emailText.isEmpty()) {
                 email.setError("Email is required");
                 email.requestFocus();
@@ -54,11 +49,7 @@ public class MainActivity extends AppCompatActivity {
                 password.requestFocus();
                 return;
             }
-            if (passwordText.length() < 6) {
-                password.setError("Password should be atleast 6 characters long");
-                password.requestFocus();
-                return;
-            }
+
             FirebaseHandler FH = new FirebaseHandler();
             FH.login(emailText, passwordText, db, new FirebaseHandler.LoginCallBack() {
                         @Override
@@ -66,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
                             Toast toast;
                             if (res) {
                                 toast = Toast.makeText(getApplicationContext(), "Login Successful", Toast.LENGTH_SHORT);
-                                Intent intent = new Intent(MainActivity.this, MainActivity.class);
+                                Intent intent = new Intent(MainActivity.this, HomeActivity.class);
                                 startActivity(intent);
                             } else {
                                 toast = Toast.makeText(getApplicationContext(), "Login Failed", Toast.LENGTH_SHORT);

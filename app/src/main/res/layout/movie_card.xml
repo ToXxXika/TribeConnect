@@ -18,7 +18,7 @@
                 android:layout_height="wrap_content"
                 android:text="Movie Title"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textStyle="bold" />
+                android:textStyle="bold"/>
 
         <TextView
                 android:id="@+id/movie_description"
