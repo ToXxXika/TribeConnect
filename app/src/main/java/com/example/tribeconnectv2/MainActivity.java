@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         db = FirebaseFirestore.getInstance();
         setContentView(R.layout.activity_main);
+        getSupportActionBar().hide();
         email = findViewById(R.id.editTextEmail);
         password = findViewById(R.id.editTextPassword);
         register = findViewById(R.id.textViewRegister);
