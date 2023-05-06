@@ -37,6 +37,7 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         db = FirebaseFirestore.getInstance();
         setContentView(R.layout.activity_home);
+        Objects.requireNonNull(getSupportActionBar()).hide();
 
         Bundle bundle = getIntent().getExtras();
         String username = "";

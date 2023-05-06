@@ -1,8 +1,13 @@
 package com.example.tribeconnectv2.Fragments;
 
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.tribeconnectv2.Models.Movie;
@@ -13,14 +18,35 @@ import java.util.List;
 public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHolder> {
 
     private List<Movie> movieList;
+    private MyViewHolder currentViewHolder;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView title, description;
+        public TextView title ;
+        ImageView img;
+        Button MovieButton;
 
         public MyViewHolder(View view) {
             super(view);
             title = view.findViewById(R.id.movie_title);
-            description = view.findViewById(R.id.movie_description);
+            img = view.findViewById(R.id.movie_poster);
+            MovieButton = view.findViewById(R.id.movie_button);
+            img.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (MovieButton.getVisibility() == View.VISIBLE) {
+                        MovieButton.setVisibility(View.INVISIBLE);
+                        currentViewHolder = null;
+                    } else {
+                        if(currentViewHolder != null){
+                            currentViewHolder.MovieButton.setVisibility(View.INVISIBLE);
+                        }
+                        MovieButton.setVisibility(View.VISIBLE);
+                        Animation fadeInAnimation = AnimationUtils.loadAnimation(v.getContext(),R.anim.fade_in);
+                        MovieButton.startAnimation(fadeInAnimation);
+                        currentViewHolder = MyViewHolder.this;
+                    }
+                }
+            });
         }
     }
 
@@ -41,8 +67,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
     public void onBindViewHolder(MyViewHolder holder, int position) {
         Movie movie = movieList.get(position);
         holder.title.setText(movie.getTitle());
-        holder.description.setText(movie.getDescription());
-    }
+        holder.img.setImageResource(movie.getImage());}
 
     @Override
     public int getItemCount() {
