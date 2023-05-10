@@ -3,24 +3,24 @@ package com.example.tribeconnectv2.Models;
 public class Movie {
     private String title;
     private String description;
-    private int image;
+    private String image;
     private String video;
 
     public Movie() {
     }
 
-    public Movie(String title, String description, int image, String video) {
+    public Movie(String title, String description, String image, String video) {
         this.title = title;
         this.description = description;
         this.image = image;
         this.video = video;
     }
-    public Movie(String title, String description, int image) {
+    public Movie(String title, String description, String image) {
         this.title = title;
         this.description = description;
         this.image = image;
     }
-    public Movie (String title, int image ){
+    public Movie (String title, String image ){
         this.title = title;
         this.image = image;
     }
@@ -33,7 +33,7 @@ public class Movie {
         return description;
     }
 
-    public int getImage() { return image; }
+    public String getImage() { return image; }
 
     public String getVideo() { return video; }
 }

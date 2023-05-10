@@ -37,18 +37,23 @@ public class MoviesFragment extends Fragment {
             @Override
             public void onGetMovies(List<Movie> lstMovies) {
                 movieList = lstMovies;
-                mAdapter = new MoviesAdapter(movieList);
+                System.out.println("MoviesFragment: " + movieList.size());
+                recyclerView = view.findViewById(R.id.movies_recycler_view);
+                int spanCount = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE ? 2 : 3;
+                recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), spanCount));
+                recyclerView.setAdapter(mAdapter);
+                mAdapter = new MoviesAdapter(movieList, getActivity());
                 recyclerView.setAdapter(mAdapter);
             }
         });
 
-        movieList.add(new Movie("How i met your mother", R.drawable.placeholder_movie_poster));
+     /*   movieList.add(new Movie("How i met your mother", R.drawable.placeholder_movie_poster));
         movieList.add(new Movie("Lol", R.drawable.placeholder_movie_poster));
         recyclerView = view.findViewById(R.id.movies_recycler_view);
         mAdapter = new MoviesAdapter(movieList);
         int spanCount = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE ? 2 : 3;
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), spanCount));
-        recyclerView.setAdapter(mAdapter);
+        recyclerView.setAdapter(mAdapter);*/
         return view;
 
 

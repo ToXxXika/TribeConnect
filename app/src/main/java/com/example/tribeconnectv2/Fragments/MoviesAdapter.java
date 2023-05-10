@@ -1,7 +1,7 @@
 package com.example.tribeconnectv2.Fragments;
 
+import android.content.Context;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -19,9 +19,10 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
 
     private List<Movie> movieList;
     private MyViewHolder currentViewHolder;
+    private Context context;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView title ;
+        public TextView title;
         ImageView img;
         Button MovieButton;
 
@@ -37,11 +38,11 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
                         MovieButton.setVisibility(View.INVISIBLE);
                         currentViewHolder = null;
                     } else {
-                        if(currentViewHolder != null){
+                        if (currentViewHolder != null) {
                             currentViewHolder.MovieButton.setVisibility(View.INVISIBLE);
                         }
                         MovieButton.setVisibility(View.VISIBLE);
-                        Animation fadeInAnimation = AnimationUtils.loadAnimation(v.getContext(),R.anim.fade_in);
+                        Animation fadeInAnimation = AnimationUtils.loadAnimation(v.getContext(), R.anim.fade_in);
                         MovieButton.startAnimation(fadeInAnimation);
                         currentViewHolder = MyViewHolder.this;
                     }
@@ -51,8 +52,9 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
     }
 
 
-    public MoviesAdapter(List<Movie> movieList) {
+    public MoviesAdapter(List<Movie> movieList, Context context) {
         this.movieList = movieList;
+        this.context = context;
     }
 
     @Override
@@ -67,7 +69,12 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
     public void onBindViewHolder(MyViewHolder holder, int position) {
         Movie movie = movieList.get(position);
         holder.title.setText(movie.getTitle());
-        holder.img.setImageResource(movie.getImage());}
+      /*  File f = new File("C:\\Users\\mabro\\IdeaProjects\\TribeConnect\\app\\src\\main\\res\\drawable\\" + movie.getImage() + ".png");
+        Uri uri = Uri.fromFile(f);*/
+
+        int resID = context.getResources().getIdentifier(movie.getImage() , "drawable", context.getPackageName());
+        holder.img.setImageResource(resID);
+    }
 
     @Override
     public int getItemCount() {

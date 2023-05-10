@@ -41,9 +41,18 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_margin="8dp"
-                android:text="Watch Now"
+                android:text="Book a Movie"
                 android:visibility="invisible" />
+        <ImageButton
+                android:id="@+id/star_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|end"
+                android:layout_margin="8dp"
+                android:src="@drawable/baseline_star_border_24" />
+
 
     </FrameLayout>
+
 
 </androidx.cardview.widget.CardView>

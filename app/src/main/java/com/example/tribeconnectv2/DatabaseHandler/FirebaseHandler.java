@@ -2,6 +2,7 @@ package com.example.tribeconnectv2.DatabaseHandler;
 
 import android.util.Log;
 import com.example.tribeconnectv2.Models.Movie;
+import com.example.tribeconnectv2.Models.Salle;
 import com.example.tribeconnectv2.Models.Utilisateur;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -23,6 +24,22 @@ public class FirebaseHandler {
             callBack.onAddMovie(false);
         });
     }
+    public void getUsers(FirebaseFirestore db, getUsersCallBack callBack){
+        db.collection("users").get().addOnSuccessListener(queryDocumentSnapshots -> {
+            if (queryDocumentSnapshots.isEmpty()) {
+                Log.d("users", "No users found");
+                callBack.onGetUsers(null);
+
+            } else {
+                Log.d("users", "Users found");
+                callBack.onGetUsers(queryDocumentSnapshots.toObjects(Utilisateur.class));
+            }
+        }).addOnFailureListener(e -> {
+            Log.e("users", "Users not found : " + e.getMessage());
+        });
+
+    }
+
     public void bookMovie(int MovieId, String userId, FirebaseFirestore db, bookMovieCallBack callBack) {
         db.collection("movies").document(String.valueOf(MovieId)).update("booked", true, "userId", userId).addOnSuccessListener(aVoid -> {
             Log.d("bookMovie", "Movie booked");
@@ -30,6 +47,29 @@ public class FirebaseHandler {
         }).addOnFailureListener(e -> {
             Log.e("bookMovie", "Movie not booked : " + e.getMessage());
             callBack.onBookMovie(false);
+        });
+    }
+    public void unbookMovie(int MovieId, FirebaseFirestore db, bookMovieCallBack callBack) {
+        db.collection("movies").document(String.valueOf(MovieId)).update("booked", false, "userId", "").addOnSuccessListener(aVoid -> {
+            Log.d("bookMovie", "Movie unbooked");
+            callBack.onBookMovie(true);
+        }).addOnFailureListener(e -> {
+            Log.e("bookMovie", "Movie not unbooked : " + e.getMessage());
+            callBack.onBookMovie(false);
+        });
+    }
+    public void getsalles(FirebaseFirestore db, getSallesCallBack callBack){
+        db.collection("salles").get().addOnSuccessListener(queryDocumentSnapshots -> {
+            if (queryDocumentSnapshots.isEmpty()) {
+                Log.d("salles", "No salles found");
+                callBack.onGetSalles(null);
+
+            } else {
+                Log.d("salles", "Salles found");
+                callBack.onGetSalles(queryDocumentSnapshots.toObjects(Salle.class));
+            }
+        }).addOnFailureListener(e -> {
+            Log.e("salles", "Salles not found : " + e.getMessage());
         });
     }
     public void getMovies(FirebaseFirestore db, getMoviesCallBack callBack){
@@ -76,6 +116,9 @@ public class FirebaseHandler {
     public interface LoginCallBack {
         void onLogin(boolean res);
     }
+    public interface getUsersCallBack{
+        void onGetUsers(List<Utilisateur> lstUsers);
+    }
     public interface getMoviesCallBack{
         void onGetMovies(List<Movie> lstMovies);
     }
@@ -88,6 +131,9 @@ public class FirebaseHandler {
     }
     public interface bookMovieCallBack {
         void onBookMovie(boolean res);
+    }
+    public interface getSallesCallBack{
+        void onGetSalles(List<Salle> res);
     }
 
 
