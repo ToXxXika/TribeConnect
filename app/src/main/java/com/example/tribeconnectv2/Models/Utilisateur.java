@@ -31,6 +31,9 @@ public class Utilisateur {
         this.password = password;
         this.role = role;
     }
+    public Utilisateur (){
+
+    }
 
     public String getNom() {
         return nom;

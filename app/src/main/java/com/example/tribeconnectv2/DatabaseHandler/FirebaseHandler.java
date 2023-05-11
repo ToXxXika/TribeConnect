@@ -1,6 +1,7 @@
 package com.example.tribeconnectv2.DatabaseHandler;
 
 import android.util.Log;
+import com.example.tribeconnectv2.Models.Favorite;
 import com.example.tribeconnectv2.Models.Movie;
 import com.example.tribeconnectv2.Models.Salle;
 import com.example.tribeconnectv2.Models.Utilisateur;
@@ -25,17 +26,17 @@ public class FirebaseHandler {
         });
     }
     public void getUsers(FirebaseFirestore db, getUsersCallBack callBack){
-        db.collection("users").get().addOnSuccessListener(queryDocumentSnapshots -> {
+        db.collection("user").get().addOnSuccessListener(queryDocumentSnapshots -> {
             if (queryDocumentSnapshots.isEmpty()) {
-                Log.d("users", "No users found");
+                Log.d("user", "No user found");
                 callBack.onGetUsers(null);
 
             } else {
-                Log.d("users", "Users found");
+                Log.d("user", queryDocumentSnapshots.toObjects(Utilisateur.class).toString());
                 callBack.onGetUsers(queryDocumentSnapshots.toObjects(Utilisateur.class));
             }
         }).addOnFailureListener(e -> {
-            Log.e("users", "Users not found : " + e.getMessage());
+            Log.e("user", "Users not found : " + e.getMessage());
         });
 
     }
@@ -111,6 +112,20 @@ public class FirebaseHandler {
             Log.e("Login", "User not added : " + e.getMessage());
             callBack.onSignup(false);
         });
+    }
+    public void LikeMovie(FirebaseFirestore db , LikeMovieCallBack callBack,String idMovie,String idUser){
+        Favorite f = new Favorite(idMovie,idUser,true);
+        db.collection("favorite").add(f).addOnSuccessListener(documentReference -> {
+            Log.d("LikeMovie", "Movie added with id : " + documentReference.getId());
+            callBack.onLikeMovie(true);
+        }).addOnFailureListener(e -> {
+            Log.e("LikeMovie", "Movie not added : " + e.getMessage());
+            callBack.onLikeMovie(false);
+        });
+
+    }
+    public interface LikeMovieCallBack{
+        void onLikeMovie(boolean res);
     }
 
     public interface LoginCallBack {

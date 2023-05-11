@@ -69,22 +69,29 @@ public class MainActivity extends AppCompatActivity {
                                 FH.getUsers(db, new FirebaseHandler.getUsersCallBack() {
                                     @Override
                                     public void onGetUsers(List<Utilisateur> lstUsers) {
-                                        for (Utilisateur u: lstUsers
-                                             ) {
+                                        for (Utilisateur u: lstUsers) {
                                             if(u.getEmail().equals(emailText)){
+                                                Toast x;
+                                                editor.putString("Nom", u.getNom());
+                                                editor.putString("Prenom", u.getPrenom());
+                                                editor.putString("email", u.getEmail());
+                                                editor.apply();
+                                                x = Toast.makeText(getApplicationContext(), "Login Successful", Toast.LENGTH_SHORT);
+                                                x.show();
+                                                Intent intent = new Intent(MainActivity.this, HomeActivity.class);
+                                                startActivity(intent);
 
                                             }
                                         }
                                     }
                                 });
 
-                                toast = Toast.makeText(getApplicationContext(), "Login Successful", Toast.LENGTH_SHORT);
-                                Intent intent = new Intent(MainActivity.this, HomeActivity.class);
-                                startActivity(intent);
+
                             } else {
                                 toast = Toast.makeText(getApplicationContext(), "Login Failed", Toast.LENGTH_SHORT);
+                                toast.show();
                             }
-                            toast.show();
+
                         }
                     }
             );
