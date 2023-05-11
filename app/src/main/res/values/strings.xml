@@ -10,8 +10,8 @@
     <string name="About">About</string>
     <string name="Logout">Logout</string>
     <string name="Movies">Movies</string>
-    <string name="Favorites">Favorties</string>
-    <string name="All">All</string>
+    <string name="Favorites">Favorites</string>
+    <string name="All">Movies</string>
     <string name="open">Open Navigation Drawer</string>
     <string name="close">Close Navigation Drawer</string>
     <string name="fmovies_to">fmovies.to</string>

@@ -1,21 +1,26 @@
 package com.example.tribeconnectv2;
 
+import android.content.Intent;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import com.example.tribeconnectv2.Fragments.FavoriteMoviesFragment;
 import com.example.tribeconnectv2.Fragments.MoviesFragment;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.firestore.FirebaseFirestore;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     DrawerLayout drawerLayout;
     NavigationView navigationView;
@@ -31,6 +36,7 @@ public class HomeActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +57,7 @@ public class HomeActivity extends AppCompatActivity {
 
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
         View headerView = navigationView.getHeaderView(0);
         name = headerView.findViewById(R.id.txtName);
         name.setText(username);
@@ -58,6 +65,7 @@ public class HomeActivity extends AppCompatActivity {
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
         MoviesFragment fragment = new MoviesFragment();
+
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().add(R.id.fragment_container, fragment).commit();
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
@@ -72,5 +80,35 @@ public class HomeActivity extends AppCompatActivity {
         } else {
             super.onBackPressed();
         }
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull @NotNull MenuItem item) {
+        int id = item.getItemId();
+        switch (id){
+            case R.id.xx:
+                MoviesFragment moviesFragment = new MoviesFragment();
+                FragmentManager fragmentManager1 = getSupportFragmentManager();
+                fragmentManager1.beginTransaction().replace(R.id.fragment_container, moviesFragment).commit();
+                Toast.makeText(this, "Movies", Toast.LENGTH_SHORT).show();
+
+            case R.id.nav_home:
+                Toast.makeText(this, "Home", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.fav:
+                FavoriteMoviesFragment fragment = new FavoriteMoviesFragment();
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                fragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).commit();
+                Toast.makeText(this, "Movies", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.Logout:
+                Intent intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
+                //TODO : dont forget to empty the shared preferences
+                finish();
+            default:
+                return true;
+        }
+        return false ;
     }
 }

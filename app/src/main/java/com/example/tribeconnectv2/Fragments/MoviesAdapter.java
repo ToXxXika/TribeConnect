@@ -9,7 +9,10 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
+import com.example.tribeconnectv2.HomeActivity;
 import com.example.tribeconnectv2.Models.Movie;
 import com.example.tribeconnectv2.R;
 
@@ -31,6 +34,18 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
             title = view.findViewById(R.id.movie_title);
             img = view.findViewById(R.id.movie_poster);
             MovieButton = view.findViewById(R.id.movie_button);
+            MovieButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                 MovieDetailsFragment movieDetailsFragment = new MovieDetailsFragment();
+                    FragmentManager fragmentManager = ((HomeActivity) context).getSupportFragmentManager();
+                    fragmentManager.beginTransaction().replace(R.id.fragment_container, movieDetailsFragment).commit();
+                    if (currentViewHolder != null) {
+                        currentViewHolder.MovieButton.setVisibility(View.INVISIBLE);
+                    }
+                    Toast.makeText(context, "Movie Button Clicked", Toast.LENGTH_SHORT).show();
+                }
+                });
             img.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

@@ -1,10 +1,7 @@
 package com.example.tribeconnectv2.DatabaseHandler;
 
 import android.util.Log;
-import com.example.tribeconnectv2.Models.Favorite;
-import com.example.tribeconnectv2.Models.Movie;
-import com.example.tribeconnectv2.Models.Salle;
-import com.example.tribeconnectv2.Models.Utilisateur;
+import com.example.tribeconnectv2.Models.*;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.List;
@@ -41,14 +38,21 @@ public class FirebaseHandler {
 
     }
 
-    public void bookMovie(int MovieId, String userId, FirebaseFirestore db, bookMovieCallBack callBack) {
-        db.collection("movies").document(String.valueOf(MovieId)).update("booked", true, "userId", userId).addOnSuccessListener(aVoid -> {
-            Log.d("bookMovie", "Movie booked");
+    public void bookMovie(Reservation reservation,Salle S, FirebaseFirestore db, bookMovieCallBack callBack) {
+        db.collection("reservation").add(reservation).addOnSuccessListener(documentReference -> {
+            //update salle places
+            db.collection("salles").document(String.valueOf(S.getSalleId())).update("places", (S.getPlaces()-reservation.getPlace())).addOnSuccessListener(aVoid -> {
+                Log.d("bookMovie", "Salle places updated");
+            }).addOnFailureListener(e -> {
+                Log.e("bookMovie", "Salle places not updated : " + e.getMessage());
+            });
+            Log.d("bookMovie", "Movie booked with id : " + documentReference.getId());
             callBack.onBookMovie(true);
         }).addOnFailureListener(e -> {
             Log.e("bookMovie", "Movie not booked : " + e.getMessage());
             callBack.onBookMovie(false);
         });
+
     }
     public void unbookMovie(int MovieId, FirebaseFirestore db, bookMovieCallBack callBack) {
         db.collection("movies").document(String.valueOf(MovieId)).update("booked", false, "userId", "").addOnSuccessListener(aVoid -> {
@@ -116,7 +120,7 @@ public class FirebaseHandler {
     public void LikeMovie(FirebaseFirestore db , LikeMovieCallBack callBack,String idMovie,String idUser){
         Favorite f = new Favorite(idMovie,idUser,true);
         db.collection("favorite").add(f).addOnSuccessListener(documentReference -> {
-            Log.d("LikeMovie", "Movie added with id : " + documentReference.getId());
+            Log.d("LikeMovie", "Movie Liked with id : " + documentReference.getId());
             callBack.onLikeMovie(true);
         }).addOnFailureListener(e -> {
             Log.e("LikeMovie", "Movie not added : " + e.getMessage());
