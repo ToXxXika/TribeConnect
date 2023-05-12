@@ -86,14 +86,13 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(@NonNull @NotNull MenuItem item) {
         int id = item.getItemId();
         switch (id){
-            case R.id.xx:
-                MoviesFragment moviesFragment = new MoviesFragment();
-                FragmentManager fragmentManager1 = getSupportFragmentManager();
-                fragmentManager1.beginTransaction().replace(R.id.fragment_container, moviesFragment).commit();
-                Toast.makeText(this, "Movies", Toast.LENGTH_SHORT).show();
+
 
             case R.id.nav_home:
-                Toast.makeText(this, "Home", Toast.LENGTH_SHORT).show();
+                MoviesFragment moviesFragment2 = new MoviesFragment();
+                FragmentManager FM2 = getSupportFragmentManager();
+                FM2.beginTransaction().replace(R.id.fragment_container, moviesFragment2).commit();
+                Toast.makeText(this, "Movies", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.fav:
                 FavoriteMoviesFragment fragment = new FavoriteMoviesFragment();

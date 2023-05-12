@@ -4,9 +4,7 @@
      <item android:id="@+id/nav_home"
            android:icon="@drawable/baseline_home_24"
            android:title="@string/home" />
-        <item android:id="@+id/nav_profile"
-              android:icon="@drawable/baseline_settings_24"
-              android:title="@string/Contact" />
+
         <item android:id="@+id/nav_settings"
                 android:icon="@drawable/baseline_settings_24"
                 android:title="@string/settings" />
@@ -31,10 +29,7 @@
                 <item android:id="@+id/fav"
                       android:icon="@drawable/baseline_favorite_24"
                       android:title="@string/Favorites" />
-                <item android:id="@+id/xx"
-                      android:icon="@drawable/baseline_local_movies_24"
-                      android:title="@string/All"
-                />
+
             </group>
         </menu>
     </item>

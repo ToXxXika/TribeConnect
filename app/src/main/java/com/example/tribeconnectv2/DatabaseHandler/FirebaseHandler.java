@@ -2,9 +2,11 @@ package com.example.tribeconnectv2.DatabaseHandler;
 
 import android.util.Log;
 import com.example.tribeconnectv2.Models.*;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.List;
+import java.util.Objects;
 
 public class FirebaseHandler {
 
@@ -39,19 +41,41 @@ public class FirebaseHandler {
     }
 
     public void bookMovie(Reservation reservation,Salle S, FirebaseFirestore db, bookMovieCallBack callBack) {
-        db.collection("reservation").add(reservation).addOnSuccessListener(documentReference -> {
-            //update salle places
-            db.collection("salles").document(String.valueOf(S.getSalleId())).update("places", (S.getPlaces()-reservation.getPlace())).addOnSuccessListener(aVoid -> {
-                Log.d("bookMovie", "Salle places updated");
-            }).addOnFailureListener(e -> {
-                Log.e("bookMovie", "Salle places not updated : " + e.getMessage());
-            });
-            Log.d("bookMovie", "Movie booked with id : " + documentReference.getId());
-            callBack.onBookMovie(true);
-        }).addOnFailureListener(e -> {
-            Log.e("bookMovie", "Movie not booked : " + e.getMessage());
-            callBack.onBookMovie(false);
-        });
+        db.collection("reservation")
+                .add(reservation)
+                .addOnSuccessListener(documentReference -> {
+                    // Update salle places based on a field value
+                    db.collection("salles")
+                            .whereEqualTo("salleId", S.getSalleId())  // Replace "field" with the actual field name
+                            .get()
+                            .addOnSuccessListener(querySnapshot -> {
+                                if (!querySnapshot.isEmpty()) {
+                                    DocumentSnapshot documentSnapshot = querySnapshot.getDocuments().get(0);
+                                    int currentPlaces = Objects.requireNonNull(documentSnapshot.getLong("places")).intValue();
+                                    int updatedPlaces = currentPlaces - reservation.getPlace();
+                                    documentSnapshot.getReference().update("places", updatedPlaces)
+                                            .addOnSuccessListener(aVoid -> {
+                                                Log.d("bookMovie", "Salle places updated");
+                                                Log.d("bookMovie", "Movie booked with id: " + documentReference.getId());
+                                                callBack.onBookMovie(true);
+                                            })
+                                            .addOnFailureListener(e -> {
+                                                Log.e("bookMovie", "Salle places not updated: " + e.getMessage());
+                                            });
+                                } else {
+                                    Log.e("bookMovie", "No matching salle found");
+                                }
+                            })
+                            .addOnFailureListener(e -> {
+                                Log.e("bookMovie", "Error retrieving salle document: " + e.getMessage());
+                            });
+
+
+                })
+                .addOnFailureListener(e -> {
+                    Log.e("bookMovie", "Movie not booked: " + e.getMessage());
+                    callBack.onBookMovie(false);
+                });
 
     }
     public void unbookMovie(int MovieId, FirebaseFirestore db, bookMovieCallBack callBack) {
@@ -117,7 +141,7 @@ public class FirebaseHandler {
             callBack.onSignup(false);
         });
     }
-    public void LikeMovie(FirebaseFirestore db , LikeMovieCallBack callBack,String idMovie,String idUser){
+    public void LikeMovie(FirebaseFirestore db , String idMovie,String idUser,LikeMovieCallBack callBack){
         Favorite f = new Favorite(idMovie,idUser,true);
         db.collection("favorite").add(f).addOnSuccessListener(documentReference -> {
             Log.d("LikeMovie", "Movie Liked with id : " + documentReference.getId());
@@ -127,6 +151,23 @@ public class FirebaseHandler {
             callBack.onLikeMovie(false);
         });
 
+    }
+    public void getFavorites(FirebaseFirestore db ,String idUser,onGetFavoritesCallBack callBack){
+        db.collection("favorite").whereEqualTo("userId",idUser).get().addOnSuccessListener(queryDocumentSnapshots -> {
+            if (queryDocumentSnapshots.isEmpty()) {
+                Log.d("getFavorites", "No favorites found");
+                callBack.onGetFavorites(null);
+
+            } else {
+                Log.d("getFavorites", "Favorites found");
+                callBack.onGetFavorites(queryDocumentSnapshots.toObjects(Favorite.class));
+            }
+        }).addOnFailureListener(e -> {
+            Log.e("getFavorites", "Favorites not found : " + e.getMessage());
+        });
+    }
+    public interface onGetFavoritesCallBack{
+        void onGetFavorites(List<Favorite> lstFavorites);
     }
     public interface LikeMovieCallBack{
         void onLikeMovie(boolean res);

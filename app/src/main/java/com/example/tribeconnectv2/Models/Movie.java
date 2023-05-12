@@ -4,21 +4,29 @@ public class Movie {
     private String title;
     private String description;
     private String image;
-    private String video;
+
+    private String idMovie;
+
+    public String getIdMovie() {
+        return idMovie;
+    }
+
+    public void setIdMovie(String idMovie) {
+        this.idMovie = idMovie;
+    }
 
     public Movie() {
     }
 
-    public Movie(String title, String description, String image, String video) {
-        this.title = title;
-        this.description = description;
-        this.image = image;
-        this.video = video;
+
+    public String generateRandomIdMovie(){
+        return "M"+(int)(Math.random()*1000000);
     }
     public Movie(String title, String description, String image) {
         this.title = title;
         this.description = description;
         this.image = image;
+        this.idMovie = generateRandomIdMovie();
     }
     public Movie (String title, String image ){
         this.title = title;
@@ -35,5 +43,4 @@ public class Movie {
 
     public String getImage() { return image; }
 
-    public String getVideo() { return video; }
 }
